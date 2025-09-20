@@ -12,7 +12,7 @@ import requests
 import json
 import time
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = 'feihualing_secret_key_2024'
 
 class FeiHuaLingWeb:
