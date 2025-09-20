@@ -196,28 +196,27 @@ class FeiHuaLingWeb:
         return re.sub(r'[，。！？；：、""''（）《》\s]', '', text)
 
     def search_poems_from_api(self, target_char, used_poems, max_attempts=5):
-        """从API搜索包含目标字符的诗句"""
+        """从API搜索包含目标字符的诗句（优化版）"""
         found_poems = []
         
-        # 尝试不同的API
-        for api_name, api_config in self.apis.items():
-            if not api_config['available']:
-                continue
-                
-            try:
-                if api_name == 'saintic':
-                    poems = self._search_saintic_api(target_char, used_poems)
-                elif api_name == 'freeapi':
-                    poems = self._search_freeapi(target_char, used_poems)
-                
+        # 1. 优先尝试 freeapi，因为它支持搜索，效率更高
+        try:
+            if self.apis['freeapi']['available']:
+                poems = self._search_freeapi(target_char, used_poems)
                 if poems:
                     found_poems.extend(poems)
-                    if len(found_poems) >= 3:  # 找到足够的诗句就停止
-                        break
-                        
+        except Exception as e:
+            print(f"API freeapi 调用失败: {e}")
+
+        # 2. 如果 freeapi 没找到足够诗句，再尝试 saintic 作为补充
+        if len(found_poems) < 3:
+            try:
+                if self.apis['saintic']['available']:
+                    poems = self._search_saintic_api(target_char, used_poems)
+                    if poems:
+                        found_poems.extend(poems)
             except Exception as e:
-                print(f"API {api_name} 调用失败: {e}")
-                continue
+                print(f"API saintic 调用失败: {e}")
         
         return found_poems
 
