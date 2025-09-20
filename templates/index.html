@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞花令 - 诗词雅游</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 背景装饰 -->
+        <div class="bg-decoration">
+            <div class="cherry-blossom"></div>
+            <div class="cherry-blossom"></div>
+            <div class="cherry-blossom"></div>
+            <div class="cherry-blossom"></div>
+            <div class="cherry-blossom"></div>
+        </div>
+
+        <!-- 主标题 -->
+        <header class="header">
+            <h1 class="title">
+                <i class="fas fa-feather-alt"></i>
+                飞花令
+                <i class="fas fa-feather-alt"></i>
+            </h1>
+            <p class="subtitle">诗词雅游，文人墨客的千古雅集</p>
+        </header>
+
+        <!-- 游戏区域 -->
+        <main class="game-area">
+            <!-- 开始游戏面板 -->
+            <div id="start-panel" class="panel">
+                <div class="welcome-card">
+                    <h2>🌸 欢迎来到飞花令 🌸</h2>
+                    <div class="rules">
+                        <h3>游戏规则</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 输入一个汉字作为关键字</li>
+                            <li><i class="fas fa-check"></i> 轮流说出包含该字的诗句</li>
+                            <li><i class="fas fa-check"></i> 不能重复之前的诗句</li>
+                            <li><i class="fas fa-check"></i> 必须是真正的古诗词</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="start-form">
+                        <div class="input-group">
+                            <label for="target-char">请输入飞花令关键字：</label>
+                            <input type="text" id="target-char" placeholder="如：春、花、月、水、山..." maxlength="1">
+                        </div>
+                        <button id="start-btn" class="btn btn-primary">
+                            <i class="fas fa-play"></i>
+                            开始游戏
+                        </button>
+                    </div>
+
+                    <div class="quick-start">
+                        <p>快速开始：</p>
+                        <div class="char-buttons">
+                            <button class="char-btn" data-char="春">春</button>
+                            <button class="char-btn" data-char="花">花</button>
+                            <button class="char-btn" data-char="月">月</button>
+                            <button class="char-btn" data-char="水">水</button>
+                            <button class="char-btn" data-char="山">山</button>
+                            <button class="char-btn" data-char="风">风</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏进行面板 -->
+            <div id="game-panel" class="panel hidden">
+                <div class="game-header">
+                    <div class="target-char-display">
+                        <span>飞花令关键字：</span>
+                        <span id="current-char" class="highlight-char">花</span>
+                    </div>
+                    <div class="round-counter">
+                        第 <span id="round-number">1</span> 回合
+                    </div>
+                </div>
+
+                <div class="chat-area" id="chat-area">
+                    <!-- 游戏对话将在这里显示 -->
+                </div>
+
+                <div class="input-area">
+                    <div class="poem-input-group">
+                        <input type="text" id="poem-input" placeholder="请输入包含关键字的诗句..." autocomplete="off">
+                        <button id="submit-btn" class="btn btn-submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="end-game-btn" class="btn btn-secondary">
+                            <i class="fas fa-flag"></i>
+                            认输
+                        </button>
+                        <button id="new-game-btn" class="btn btn-outline">
+                            <i class="fas fa-redo"></i>
+                            新游戏
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏结束面板 -->
+            <div id="end-panel" class="panel hidden">
+                <div class="result-card">
+                    <h2 id="result-title">🎊 游戏结束 🎊</h2>
+                    <p id="result-message">恭喜你赢得了这局飞花令！</p>
+                    <div class="game-stats">
+                        <div class="stat">
+                            <span class="stat-label">总回合数</span>
+                            <span class="stat-value" id="total-rounds">5</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">关键字</span>
+                            <span class="stat-value" id="final-char">花</span>
+                        </div>
+                    </div>
+                    <button id="restart-btn" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        再来一局
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 提示消息 -->
+        <div id="toast" class="toast hidden">
+            <span id="toast-message"></span>
+        </div>
+
+        <!-- 加载动画 -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>AI正在思考中...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html> 
